@@ -1,0 +1,21 @@
+.game-art-image::before,
+.game-art-image::after {
+    display: none;
+}
+
+.game-art-image .game-logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.art-magic-chess-go-go .game-logo,
+.art-pubg-mobile .game-logo {
+    object-fit: contain;
+    background: #111;
+}
+
+.game-art-image .art-stamp {
+    z-index: 1;
+}

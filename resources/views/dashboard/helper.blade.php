@@ -1,0 +1,9 @@
+@extends('layouts.app')
+@section('title', 'Helper inbox — Respawn')
+@section('content')
+<section class="dashboard-shell"><div class="admin-head"><div><div class="eyebrow"><span class="spark">✳</span> CUSTOMER CARE</div><h1>Inbox <span class="muted-heading">support.</span></h1><p>Semua pesan player, di satu tempat. Bantu mereka balik ke game.</p></div><span class="cs-online"><span class="online-dot"></span> Kamu sedang online</span></div>
+@include('partials.flash')
+<div class="inbox-banner"><span class="inbox-icon">☏</span><div><strong>{{ $tickets->where('status', 'Menunggu balasan')->count() }} pesan butuh perhatian</strong><p>Balas dengan ramah, jelas, dan bantu sampai selesai.</p></div><span class="inbox-decoration">✳</span></div>
+<div class="ticket-list">@forelse($tickets as $ticket)<article class="helper-ticket"><div class="helper-avatar">{{ strtoupper(substr($ticket->name, 0, 1)) }}</div><div class="helper-ticket-body"><div class="helper-ticket-meta"><div><strong>{{ $ticket->name }}</strong><span class="user-handle">@ {{ $ticket->username }}</span></div><span class="status-pill {{ $ticket->reply ? 'status-paid' : 'status-pending' }}">{{ $ticket->status }}</span></div><h2>{{ $ticket->subject }}</h2><p>{{ $ticket->message }}</p><time>{{ \Carbon\Carbon::parse($ticket->created_at)->format('d M Y, H:i') }}</time>
+@if($ticket->reply)<div class="existing-reply"><strong>✳ Balasan Respawn</strong><p>{{ $ticket->reply }}</p></div>@else<form method="POST" action="{{ route('support.reply', $ticket->id) }}" class="reply-form">@csrf<textarea name="reply" rows="2" placeholder="Tulis balasan untuk {{ $ticket->name }}..." required></textarea><button class="button button-primary button-small">Kirim balasan ↗</button></form>@endif</div></article>@empty<div class="empty-state"><span>✓</span><strong>Inbox bersih!</strong><p>Belum ada pesan masuk dari player.</p></div>@endforelse</div></section>
+@endsection
